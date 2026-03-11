@@ -83,4 +83,6 @@ func main() {
 	} else {
 		fmt.Println("Спробуйте ще раз!")
 	}
+
+	time.Sleep(10 * time.Second)
 }
