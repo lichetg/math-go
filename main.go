@@ -15,6 +15,8 @@ const (
 var id uint64 = 1
 
 func menu() {
+	fmt.Println("")
+	fmt.Println("")
 	fmt.Println("1. Грати")
 	fmt.Println("2. Рейтинг")
 	fmt.Println("3. Вийти")
@@ -71,7 +73,6 @@ func main() {
 		case "2":
 			for _, u := range users {
 				fmt.Printf("Id: %v Name: %s Time: %v", u.Id, u.Name, u.Time)
-
 			}
 		case "3":
 			return
