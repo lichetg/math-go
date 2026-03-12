@@ -15,10 +15,19 @@ const (
 var id uint64 = 1
 
 func menu() {
-
+	fmt.Println("1. Грати")
+	fmt.Println("2. Рейтинг")
+	fmt.Println("3. Вийти")
+	fmt.Println("")
 }
 
 func countdown() {
+
+	fmt.Println("Вітаємо у математичній грі!")
+	fmt.Println("Вам потрібно розв'язати 5 прикладів.")
+	fmt.Println("За кожну правильну відповідь ви отримуєте 20 балів.")
+	fmt.Println("Максимум: 100 балів.")
+	fmt.Println()
 	fmt.Println("Гра почнеться через:")
 	for i := 5; i > 0; i-- {
 		fmt.Println(i)
@@ -46,12 +55,6 @@ func getValidIntInput() int {
 }
 
 func main() {
-
-	fmt.Println("Вітаємо у математичній грі!")
-	fmt.Println("Вам потрібно розв'язати 5 прикладів.")
-	fmt.Println("За кожну правильну відповідь ви отримуєте 20 балів.")
-	fmt.Println("Максимум: 100 балів.")
-	fmt.Println()
 
 	var users []domain.User
 
