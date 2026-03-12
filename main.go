@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"mathcore/domain"
 	"time"
 )
 
@@ -10,6 +11,12 @@ const (
 	totalQuestions    = 5
 	pointsPerQuestion = 20
 )
+
+var id uint64 = 1
+
+func menu() {
+
+}
 
 func countdown() {
 	fmt.Println("Гра почнеться через:")
@@ -45,6 +52,33 @@ func main() {
 	fmt.Println("За кожну правильну відповідь ви отримуєте 20 балів.")
 	fmt.Println("Максимум: 100 балів.")
 	fmt.Println()
+
+	var users []domain.User
+
+	for {
+		menu()
+
+		choice := ""
+		fmt.Scan(&choice)
+
+		switch choice {
+		case "1":
+			u := play()
+			users = append(users, u)
+		case "2":
+			for _, u := range users {
+				fmt.Printf("Id: %v Name: %s Time: %v", u.Id, u.Name, u.Time)
+
+			}
+		case "3":
+			return
+		default:
+		}
+	}
+
+}
+
+func play() domain.User {
 
 	countdown()
 
@@ -84,5 +118,17 @@ func main() {
 		fmt.Println("Спробуйте ще раз!")
 	}
 
-	time.Sleep(10 * time.Second)
+	fmt.Println("Введіть ім'я: ")
+	name := ""
+
+	fmt.Scan(&name)
+
+	user := domain.User{
+		Id:   id,
+		Name: name,
+		Time: elapsedTime,
+	}
+	id++
+
+	return user
 }
