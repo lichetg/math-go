@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math/rand"
 	"mathcore/domain"
+	"sort"
 	"time"
 )
 
@@ -135,4 +136,10 @@ func play() domain.User {
 	id++
 
 	return user
+}
+
+func sortAndSave(users []domain.User) {
+	sort.Slice(users, func(i, j int) bool {
+	return users[i].Time < users[j].Time
+	})
 }
