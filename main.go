@@ -76,6 +76,7 @@ func main() {
 			users = append(users, u)
 			sortAndSave(users)
 		case "2":
+			getUsers(users)
 			for _, u := range users {
 				fmt.Printf("Id: %v Name: %s Time: %v", u.Id, u.Name, u.Time)
 			}
@@ -144,7 +145,7 @@ func play() domain.User {
 
 func sortAndSave(users []domain.User) {
 	sort.Slice(users, func(i, j int) bool {
-	return users[i].Time < users[j].Time
+		return users[i].Time < users[j].Time
 	})
 
 	file, err := os.OpenFile(
@@ -152,22 +153,43 @@ func sortAndSave(users []domain.User) {
 		os.O_RDWR|os.O_CREATE|os.O_TRUNC,
 		0755,
 	)
-	if err != nil{
+	if err != nil {
 		log.Printf("sortAndSave(os.OpenFile): %s", err)
 		return
 	}
 
-	defer func(){
+	defer func() {
 		err = file.Close()
-		if err != nil{
+		if err != nil {
 			log.Printf("sortAndSave(file.Close): %s", err)
 		}
 	}()
 
 	encoder := json.NewEncoder(file)
 	err = encoder.Encode(users)
-	if err != nil{
+	if err != nil {
 		log.Printf("sortAndSave(encoder.Encode): %s", err)
 		return
 	}
+}
+
+func getUsers(users []domain.User) {
+	file, err := os.Open("users.json")
+	if err != nil {
+		log.Printf("sgetUsers(os.Open): %s", err)
+	}
+
+	decoder := json.NewDecoder(file)
+	err = decoder.Decode(users)
+	if err != nil {
+		log.Printf("getUsers(decoder.Decode): %s", err)
+		return
+	}
+
+	defer func() {
+		err = file.Close()
+		if err != nil {
+			log.Printf("getUsers(file.Close): %s", err)
+		}
+	}()
 }
