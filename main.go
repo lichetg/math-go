@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"log"
 	"math/rand"
@@ -62,6 +63,13 @@ func getValidIntInput() int {
 
 func main() {
 
+	users := getUsers()
+	for _, u := range users {
+		if u.Id >= id {
+			id = u.Id + 1
+		}
+	}
+
 	for {
 		menu()
 
@@ -71,13 +79,12 @@ func main() {
 		switch choice {
 		case "1":
 			u := play()
-			users := getUsers()
 			users = append(users, u)
 			sortAndSave(users)
 		case "2":
 			users := getUsers()
 			for _, u := range users {
-				fmt.Printf("Id: %v Name: %s Time: %v", u.Id, u.Name, u.Time)
+				fmt.Printf("Id: %v Name: %s Time: %v \n", u.Id, u.Name, u.Time)
 			}
 		case "3":
 			return
@@ -172,12 +179,17 @@ func sortAndSave(users []domain.User) {
 	}
 }
 
-func getUsers()[]domain.User {
+func getUsers() []domain.User {
+	
 	var users []domain.User
 
 	file, err := os.Open("users.json")
 	if err != nil {
-		log.Printf("sgetUsers(os.Open): %s", err)
+		if errors.Is(err, os.ErrNotExist){
+			_, err = os.Create("users.json")
+			return nil
+		}
+		log.Printf("getUsers(os.Open): %s", err)
 		return nil
 	}
 
